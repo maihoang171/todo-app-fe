@@ -1,6 +1,30 @@
 import "./App.css";
+import { useCreateTask } from "./hooks/use-task";
+import {toast} from "sonner"
+import axios from "axios";
 
 function App() {
+  const {name, setName, handleCreateTask} = useCreateTask();
+
+  const createTask = async () => {
+    try{
+      await handleCreateTask();
+      
+      toast.success("Task created successfully", {
+        position: "bottom-left" 
+      })
+
+      setName("")
+    } catch (error) {
+      let errMessage = "Failed to create new task";
+      if (axios.isAxiosError(error)){
+        errMessage = error.response?.data?.error || error.message
+      }
+      toast.error(errMessage, {
+        position: "bottom-left"
+      })
+    }
+  }
   return (
     <>
       <div className="App h-screen p-4">
@@ -12,8 +36,10 @@ function App() {
             type="text"
             placeholder="Add your new task"
             className="input input-s"
+            value={name}
+            onChange={(e)=> setName(e.target.value)}
           />
-          <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 hover:cursor-pointer">
+          <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 hover:cursor-pointer" onClick={createTask}>
             Add Task
           </button>
         </div>
