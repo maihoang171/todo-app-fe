@@ -1,28 +1,16 @@
-import { toast } from "sonner";
 import { useCreateTask } from "../hooks/use-task";
-import axios from "axios";
+import type { ITask } from "../services/task";
 
-export default function CreateTask() {
+export default function CreateTask({onTaskCreated} : {onTaskCreated: (t:ITask) => void}) {
   const { name, setName, handleCreateTask } = useCreateTask();
 
   const createTask = async () => {
-    try {
-      await handleCreateTask();
-
-      toast.success("Task created successfully", {
-        position: "bottom-left",
-      });
-
-      setName("");
-    } catch (error) {
-      let errMessage = "Failed to create new task";
-      if (axios.isAxiosError(error)) {
-        errMessage = error.response?.data?.error || error.message;
+      const taskList = await handleCreateTask();
+      
+      if(taskList){
+        onTaskCreated(taskList)
+        setName("")
       }
-      toast.error(errMessage, {
-        position: "bottom-left",
-      });
-    }
   };
   return (
     <>
