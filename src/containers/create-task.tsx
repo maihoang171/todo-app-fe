@@ -21,12 +21,13 @@ export default function CreateTask({onTaskCreated} : {onTaskCreated: (t:ITask) =
             className="input input-s"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            disabled={isCreating}
           />
           <button
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 hover:cursor-pointer"
             onClick={createTask}
           >
-            Add Task
+           {isCreating ? "Adding..." : "Add Task"}
           </button>
         </div>
     </>

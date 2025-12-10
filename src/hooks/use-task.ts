@@ -4,7 +4,7 @@ import { toast } from "sonner";
 
 export const useCreateTask = () => {
   const [name, setName] = useState("");
-
+  
   const handleCreateTask = async () => {
     try {
       const res = await createTask({name: name})
