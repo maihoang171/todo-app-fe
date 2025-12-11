@@ -5,10 +5,10 @@ export default function CreateTask({onTaskCreated} : {onTaskCreated: (t:ITask) =
   const { name, setName, handleCreateTask } = useCreateTask();
 
   const createTask = async () => {
-      const taskList = await handleCreateTask();
+      const task = await handleCreateTask();
       
-      if(taskList){
-        onTaskCreated(taskList)
+      if(task){
+        onTaskCreated(task)
         setName("")
       }
   };

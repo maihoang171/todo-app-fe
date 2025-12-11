@@ -8,12 +8,16 @@ function Home(){
     const handleAddNewTask = (newTask: ITask)=>{
         setTasks([...tasks, newTask])
     }
+    const handleDeleteTask = (id: number) => {
+        const newTasks = tasks.filter(t => t.iD != id)
+        setTasks(newTasks)
+    }
     return (<>
         <div>
             <div className="h-full  min-w-3xl">
                 <h1 className="text-2xl font-bold text-center">My todo app</h1>
                 <CreateTask onTaskCreated={handleAddNewTask}/>
-                <TaskList tasks={tasks}/>
+                <TaskList tasks={tasks} onTaskDeleted={handleDeleteTask}/>
             </div>
         </div>
     </>)
