@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createTask, getAllTask, type ITask } from "../services/task";
+import { createTask, deleteTask, getAllTask, type ITask } from "../services/task";
 import { toast } from "sonner";
 
 export const useCreateTask = () => {
@@ -11,7 +11,7 @@ export const useCreateTask = () => {
       toast.success("Task created successfully", {
         position: "bottom-left"
       })
-
+   
       return res.data.task
     } catch(error){
       toast.error("Failed to create new task: " + error, {
@@ -48,5 +48,28 @@ export const useGetTasks = () => {
 
   return {
     tasks, setTasks
+  }
+}
+
+export const useDeleteTask = () => {
+  const handleDeleteTask = async (id: number) => {
+    try {
+      await deleteTask(id)
+
+      toast.success("Task deleted successfully", {
+        position: "bottom-left"
+      })
+
+      return true
+    } catch(error){
+      toast.error("Failed to delete task: " + error, {
+        position: "bottom-left"
+      })
+
+      return false
+    }
+  }
+  return {
+    handleDeleteTask
   }
 }
