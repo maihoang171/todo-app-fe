@@ -28,9 +28,9 @@ export const useTaskStore = create<TaskState>((set) => ({
         }
     },
 
-    addTask: async(name: string) => {
+    addTask: async(title: string) => {
         try{
-            const res = await createTask({name})
+            const res = await createTask({title})
             const newTask = res.data.task
             set((state) => ({
                 tasks: [...state.tasks, newTask]

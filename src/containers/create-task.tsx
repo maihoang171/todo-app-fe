@@ -2,16 +2,16 @@ import { useState } from "react";
 import { useTaskStore } from "../stores/useTaskStore";
 
 export default function CreateTask() {
-  const [name, setName] = useState("")
+  const [title, setTitle] = useState("")
 
   const {addTask} = useTaskStore()
 
   const handleCreateTask = async () => {
-      if(!name.trim()) return
+      if(!title.trim()) return
 
-      const success = await addTask(name)
+      const success = await addTask(title)
       if(success){
-        setName("")
+        setTitle("")
       }
   };
   return (
@@ -21,8 +21,13 @@ export default function CreateTask() {
             type="text"
             placeholder="Add your new task"
             className="input input-s"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            onKeyDown={(e) => {
+              if(e.key == "Enter"){
+                handleCreateTask()
+              }
+            }}
           />
           <button
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 hover:cursor-pointer"
