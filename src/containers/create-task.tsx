@@ -1,14 +1,16 @@
-import { useCreateTask } from "../hooks/use-task";
-import type { ITask } from "../services/task";
+import { useState } from "react";
+import { useTaskStore } from "../stores/useTaskStore";
 
-export default function CreateTask({onTaskCreated} : {onTaskCreated: (t:ITask) => void}) {
-  const { name, setName, handleCreateTask } = useCreateTask();
+export default function CreateTask() {
+  const [name, setName] = useState("")
 
-  const createTask = async () => {
-      const task = await handleCreateTask();
-      
-      if(task){
-        onTaskCreated(task)
+  const {addTask} = useTaskStore()
+
+  const handleCreateTask = async () => {
+      if(!name.trim()) return
+
+      const success = await addTask(name)
+      if(success){
         setName("")
       }
   };
@@ -24,7 +26,7 @@ export default function CreateTask({onTaskCreated} : {onTaskCreated: (t:ITask) =
           />
           <button
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 hover:cursor-pointer"
-            onClick={createTask}
+            onClick={handleCreateTask}
           >
             Add Task
           </button>

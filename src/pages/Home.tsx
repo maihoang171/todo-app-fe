@@ -1,23 +1,21 @@
+import { useEffect } from "react"
 import CreateTask from "../containers/create-task"
 import TaskList from "../containers/task-list"
-import { useGetTasks } from "../hooks/use-task"
-import type { ITask } from "../services/task"
+import { useTaskStore } from "../stores/useTaskStore"
 
 function Home(){
-    const {tasks, setTasks} = useGetTasks()
-    const handleAddNewTask = (newTask: ITask)=>{
-        setTasks([...tasks, newTask])
-    }
-    const handleDeleteTask = (id: number) => {
-        const newTasks = tasks.filter(t => t.iD != id)
-        setTasks(newTasks)
-    }
+    const {fetchTasks} = useTaskStore()
+    
+    useEffect(()=>{
+        fetchTasks()
+    },[])
+    
     return (<>
         <div>
             <div className="h-full  min-w-3xl">
                 <h1 className="text-2xl font-bold text-center">My todo app</h1>
-                <CreateTask onTaskCreated={handleAddNewTask}/>
-                <TaskList tasks={tasks} onTaskDeleted={handleDeleteTask}/>
+                <CreateTask/>
+                <TaskList/>
             </div>
         </div>
     </>)
