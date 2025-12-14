@@ -5,11 +5,11 @@ export interface ITask {
     createdAt: Date;
     updatedAt: Date;
     deletedAt: Date | null;
-    name: string;
+    title: string;
     isComplete: boolean;
 }
 
-export const createTask = async (task: Pick<ITask, "name">) => {
+export const createTask = async (task: Pick<ITask, "title">) => {
     const response = await axiosClient.post('/task', task);
     return response;
 }

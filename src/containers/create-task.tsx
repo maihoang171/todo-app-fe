@@ -1,15 +1,17 @@
-import { useCreateTask } from "../hooks/use-task";
-import type { ITask } from "../services/task";
+import { useState } from "react";
+import { useTaskStore } from "../stores/useTaskStore";
 
-export default function CreateTask({onTaskCreated} : {onTaskCreated: (t:ITask) => void}) {
-  const { name, setName, handleCreateTask } = useCreateTask();
+export default function CreateTask() {
+  const [title, setTitle] = useState("")
 
-  const createTask = async () => {
-      const task = await handleCreateTask();
-      
-      if(task){
-        onTaskCreated(task)
-        setName("")
+  const {addTask} = useTaskStore()
+
+  const handleCreateTask = async () => {
+      if(!title.trim()) return
+
+      const success = await addTask(title)
+      if(success){
+        setTitle("")
       }
   };
   return (
@@ -19,15 +21,19 @@ export default function CreateTask({onTaskCreated} : {onTaskCreated: (t:ITask) =
             type="text"
             placeholder="Add your new task"
             className="input input-s"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            disabled={isCreating}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            onKeyDown={(e) => {
+              if(e.key == "Enter"){
+                handleCreateTask()
+              }
+            }}
           />
           <button
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 hover:cursor-pointer"
-            onClick={createTask}
+            onClick={handleCreateTask}
           >
-           {isCreating ? "Adding..." : "Add Task"}
+           Add
           </button>
         </div>
     </>
