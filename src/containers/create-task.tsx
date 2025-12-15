@@ -1,17 +1,27 @@
 import { useState } from "react";
 import { useTaskStore } from "../stores/useTaskStore";
+import { createTask } from "../services/task";
+import { toast } from "sonner";
 
 export default function CreateTask() {
   const [title, setTitle] = useState("")
 
-  const {addTask} = useTaskStore()
+  const {tasks, setTasks} = useTaskStore()
 
   const handleCreateTask = async () => {
-      if(!title.trim()) return
-
-      const success = await addTask(title)
-      if(success){
+      try{
+        if(!title.trim()) return
+        const res = await createTask({ title })
+        setTasks([...tasks, res.data.task])
         setTitle("")
+
+        toast.success("task created successfully", {
+          position: "bottom-left"
+        })
+      } catch(error){
+        toast.error("failed to create task: " + error, {
+          position: "bottom-left"
+        })
       }
   };
   return (
