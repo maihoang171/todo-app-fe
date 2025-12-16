@@ -29,7 +29,7 @@ export default function TaskList(){
     return (
         <>
             <h2 className="text-2xl font-semibold mt-5 text-center">Task List</h2>
-            {isLoading ? "loading...." : tasks.map((task) => (
+            {isLoading ? <p className="text-center">loading....</p> : tasks.map((task) => (
                 <TaskDetail key={task.iD} {...task}/>
             ))}
         </>
