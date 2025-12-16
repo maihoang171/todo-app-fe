@@ -23,3 +23,8 @@ export const deleteTask = async (id: number) => {
     const response = await axiosClient.delete(`/task/${id}`)
     return response
 }
+
+export const updateTask = async (id: number, updateTask: ITask) => {
+    const response = await axiosClient.patch(`/task/${id}`, updateTask)
+    return response
+}
