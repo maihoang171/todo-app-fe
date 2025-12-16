@@ -9,13 +9,18 @@ export interface ITask {
     isComplete: boolean;
 }
 
+export interface IPaginationResponse {
+    tasks: ITask[],
+    totalRecords: number,
+    totalPages: number
+}
 export const createTask = async (task: Pick<ITask, "title">) => {
     const response = await axiosClient.post('/task', task);
     return response;
 }
 
-export const getAllTask = async () => {
-    const response = await axiosClient.get<ITask[]>("/task");
+export const getAllTask = async (page: number) => {
+    const response = await axiosClient.get<IPaginationResponse>(`/task?page=${page}`);
     return response;
 }
 
